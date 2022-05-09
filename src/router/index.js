@@ -4,6 +4,7 @@ import Login from '../components/Login'
 import Register from '../components/Register'
 import Dashboard from '../components/Dashboard'
 import ListUser from '../components/ListUser'
+import ListUserDelete from '../components/ListUserDelete'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/list/user',
     name: 'listUser',
     component: ListUser
+  },
+  {
+    path: '/list/user/delete',
+    name: 'listUserDelete',
+    component: ListUserDelete
   }
   
   

@@ -1,20 +1,13 @@
 // import axios from 'axios'
-const todoModules = {
+const checkAuth = {
     state: {
-        checkToken: {
-            token: window.localStorage.getItem('token')
+        auth: {
+            isAuthenticated: false
         }
     },
 
     getters: {
-        checkLoggedIn: (state) => {
-            if(state.checkToken.token == null)
-            {
-                console.log('124234')
-                this.$router.push({name: 'login'})
-            }
-            
-        }
+        isAuthenticated: state => state.auth.isAuthenticated
     },
 
     actions: {
@@ -22,8 +15,10 @@ const todoModules = {
     },
 
     mutations: {
-        
+        TOGGLE_AUTH(state) {
+            state.auth.isAuthenticated = !state.auth.isAuthenticated
+        }
     }
 }
 
-export default todoModules
+export default checkAuth

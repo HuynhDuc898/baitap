@@ -1,7 +1,7 @@
 <template>
   <div class="container">
         <div class="row">
-            <form class="col-4 mx-auto bordered mt-5" @submit.prevent="login">
+            <form class="col-4 mx-auto bordered mt-5" @submit.prevent="login()">
                 
                 <h2>Login</h2>
                 
@@ -17,7 +17,7 @@
                 </div>
                 
                 <button type="submit" class="btn btn-primary">Submit</button> 
-                <button class="btn btn-primary ml-2" @click="register">Register</button> <span class="text-secondary" :class="{'spinner-border':loading}"></span>
+                <!-- <button class="btn btn-primary ml-2" @click="register">Register</button> <span class="text-secondary" :class="{'spinner-border':loading}"></span> -->
             </form>
         </div>
   </div>
@@ -25,6 +25,7 @@
 
 <script>
 import axios from 'axios'
+import {mapGetters, mapState} from 'vuex'
 
 const apiLoginUrl = 'http://127.0.0.1:8000/api/user/login'
 
@@ -43,26 +44,33 @@ export default {
         }
     },
     methods: {
-        
         login: async function() {
-            this.loading =true
+            this.loading =true;
+
             try {
                 const response = await axios.post(this.apiLoginUrl, this.user)
-                window.localStorage.setItem('token', response.data.token)
+                const token = response.data.token;
 
+                if (!token) {
+                    return;
+                }
+
+                // Set axios request header
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
+                localStorage.setItem('token', token);
+
+                this.$store.commit('TOGGLE_AUTH')
                 this.$router.push({name: 'home'})
-                // console.log(response)
             } catch (error) {
                 this.errors = error.response
                 this.loading = false
-                // console.log(error.response.data.error)
             }
         },
         register: function() {
             this.$router.push({name: 'register'})
-        }
-
-
+        },
+         
     }
     
 }

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 
 // import modules
 import checktoken from './modules/checktoken'
+import user from './modules/user'
 
 
 Vue.use(Vuex)
@@ -11,6 +12,7 @@ Vue.use(Vuex)
 const storeData = {
     modules: {
         checktoken,
+        user
     }
     
 }
